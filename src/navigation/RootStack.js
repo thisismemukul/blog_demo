@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import BottomTabs from './BottomTabs';
 import IndexScreen from '../screens/IndexScreen';
 const Stack = createNativeStackNavigator();
-const HomeStack = () => {
+const RootStack = () => {
     return (
         <Stack.Navigator>
             {/* <Stack.Screen
@@ -26,4 +26,4 @@ const HomeStack = () => {
     )
 }
 
-export default HomeStack
+export default RootStack
