@@ -18,7 +18,6 @@ const IndexScreen = ({ navigation }) => {
                             <View style={styles.listItem}>
                                 <View style={styles.listItemView}>
                                     <Text style={styles.title}>{item.title}</Text>
-                                    <Text style={styles.description}>{item.description}</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                                     <Ionicons style={styles.icon} name="trash-bin" size={24} color="black" />
