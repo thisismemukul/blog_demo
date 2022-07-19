@@ -1,5 +1,6 @@
 import React from 'react';
 import createDataContext from './createDataContext';
+import jsonServer from '../api/jsonServer';
 const blogReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_BLOG_POST':
@@ -10,8 +11,17 @@ const blogReducer = (state, action) => {
             return state.map((blogPost) => {
                 return blogPost.id === action.payload.id ? action.payload : blogPost;
             });
+        case 'GET_BLOG_POSTS':
+            return action.payload;
         default:
             return state;
+    }
+}
+
+const getBlogPosts = (dispatch) => {
+    return async() => {
+        const response = await jsonServer.get('/blogposts');
+        dispatch({ type: 'GET_BLOG_POSTS', payload: response.data });
     }
 }
 
@@ -38,4 +48,4 @@ const editBlogPost = (dispatch) => {
 }
 
 
-export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost, deleteBlogPost, editBlogPost }, [{ id: 1, title: 'JSX for beginners (and how it differs from HTML)', description: 'So JSX permits us write Javascript and HTML together. However, unlike HTML and Javascript, JSX cannot be interpreted by browsers so it needs a compiler (Babel or Webpack) to transpile it to Javascript.' }]);
+export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts }, []);
