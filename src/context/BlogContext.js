@@ -3,8 +3,8 @@ import createDataContext from './createDataContext';
 import jsonServer from '../api/jsonServer';
 const blogReducer = (state, action) => {
     switch (action.type) {
-        case 'ADD_BLOG_POST':
-            return [...state, { id: Math.floor(Math.random() * 99999), title: action.payload.title, description: action.payload.description }];
+        // case 'ADD_BLOG_POST':
+        //     return [...state, { id: Math.floor(Math.random() * 99999), title: action.payload.title, description: action.payload.description }];
         case 'DELETE_BLOG_POST':
             return state.filter((blogPost) => blogPost.id !== action.payload);
         case 'EDIT_BLOG_POST':
@@ -35,12 +35,14 @@ const addBlogPost = (dispatch) => {
     }
 }
 const deleteBlogPost = (dispatch) => {
-    return (id) => {
+    return async(id) => {
+        await jsonServer.delete(`/blogposts/${id}`);
         dispatch({ type: 'DELETE_BLOG_POST', payload: id });
     }
 }
 const editBlogPost = (dispatch) => {
-    return (id, title, description, callBack) => {
+    return async(id, title, description, callBack) => {
+        await jsonServer.put(`/blogposts/${id}`, { title, description });
         dispatch({ type: 'EDIT_BLOG_POST', payload: { id, title, description } });
         if (callBack) {
             callBack();
