@@ -1,15 +1,21 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
-import React, { useContext,useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Context } from '../context/BlogContext';
 import { Ionicons } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
-    const { state, deleteBlogPost,getBlogPosts } = useContext(Context);
+    const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
 
     useEffect(() => {
-      getBlogPosts();
+        getBlogPosts();
+        const listener = navigation.addListener('didFocus', () => {
+            getBlogPosts();
+        });
+        return () => {
+            listener.remove();
+        }
     }, []);
-    
+
     return (
         <View style={styles.container}>
             <FlatList
