@@ -3,7 +3,7 @@ import createDataContext from './createDataContext';
 const blogReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_BLOG_POST':
-            return [...state, { id:Math.floor(Math.random()*99999), title: `Blog Post #${state.length + 1}`, description: action.payload }];
+            return [...state, { id: Math.floor(Math.random() * 99999), title: action.payload.title, description: action.payload.description }];
         case 'DELETE_BLOG_POST':
             return state.filter((blogPost) => blogPost.id !== action.payload);
         default:
@@ -12,8 +12,9 @@ const blogReducer = (state, action) => {
 }
 
 const addBlogPost = (dispatch) => {
-    return (content) => {
-        dispatch({ type: 'ADD_BLOG_POST', payload: content });
+    return (title, description, callBack) => {
+        dispatch({ type: 'ADD_BLOG_POST', payload: { title, description } });
+        callBack();
     }
 }
 const deleteBlogPost = (dispatch) => {
@@ -23,4 +24,4 @@ const deleteBlogPost = (dispatch) => {
 }
 
 
-export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost,deleteBlogPost }, []);
+export const { Context, Provider } = createDataContext(blogReducer, { addBlogPost, deleteBlogPost }, [{ id: 1, title: 'JSX for beginners (and how it differs from HTML)', description: 'So JSX permits us write Javascript and HTML together. However, unlike HTML and Javascript, JSX cannot be interpreted by browsers so it needs a compiler (Babel or Webpack) to transpile it to Javascript.' }]);
